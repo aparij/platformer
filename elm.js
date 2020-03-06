@@ -5570,11 +5570,22 @@ var $author$project$Platformer$update = F2(
 	function (msg, model) {
 		if (msg.$ === 'KeyDown') {
 			var key = msg.a;
-			return _Utils_Tuple2(
-				_Utils_update(
-					model,
-					{characterPositionX: model.characterPositionX + 15}),
-				$elm$core$Platform$Cmd$none);
+			switch (key) {
+				case 'ArrowRight':
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{characterPositionX: model.characterPositionX + 15}),
+						$elm$core$Platform$Cmd$none);
+				case 'ArrowLeft':
+					return _Utils_Tuple2(
+						_Utils_update(
+							model,
+							{characterPositionX: model.characterPositionX - 15}),
+						$elm$core$Platform$Cmd$none);
+				default:
+					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+			}
 		} else {
 			return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}

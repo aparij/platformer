@@ -48,7 +48,13 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         KeyDown key ->
-             ( { model | characterPositionX = model.characterPositionX + 15 }, Cmd.none )
+            case key of 
+                "ArrowRight" -> 
+                    ( { model | characterPositionX = model.characterPositionX + 15 }, Cmd.none )
+                "ArrowLeft" -> 
+                    ( { model | characterPositionX = model.characterPositionX - 15 }, Cmd.none )
+                _ ->
+                    ( model, Cmd.none )    
         NoOp ->
             ( model, Cmd.none )
  
