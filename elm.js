@@ -5144,7 +5144,8 @@ var $elm$core$Task$perform = F2(
 				A2($elm$core$Task$map, toMessage, task)));
 	});
 var $elm$browser$Browser$element = _Browser_element;
-var $author$project$Platformer$initialModel = {characterPositionX: 50, characterPositionY: 300, itemPositionX: 500, itemPositionY: 300};
+var $author$project$Platformer$Right = {$: 'Right'};
+var $author$project$Platformer$initialModel = {characterDirection: $author$project$Platformer$Right, characterPositionX: 50, characterPositionY: 300, itemPositionX: 500, itemPositionY: 300};
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Platformer$init = function (_v0) {
@@ -5566,6 +5567,7 @@ var $author$project$Platformer$subscriptions = function (model) {
 				A2($elm$json$Json$Decode$map, $author$project$Platformer$KeyDown, $author$project$Platformer$keyDecoder))
 			]));
 };
+var $author$project$Platformer$Left = {$: 'Left'};
 var $author$project$Platformer$update = F2(
 	function (msg, model) {
 		if (msg.$ === 'KeyDown') {
@@ -5575,13 +5577,13 @@ var $author$project$Platformer$update = F2(
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{characterPositionX: model.characterPositionX + 15}),
+							{characterDirection: $author$project$Platformer$Right, characterPositionX: model.characterPositionX + 15}),
 						$elm$core$Platform$Cmd$none);
 				case 'ArrowLeft':
 					return _Utils_Tuple2(
 						_Utils_update(
 							model,
-							{characterPositionX: model.characterPositionX - 15}),
+							{characterDirection: $author$project$Platformer$Left, characterPositionX: model.characterPositionX - 15}),
 						$elm$core$Platform$Cmd$none);
 				default:
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -5607,11 +5609,19 @@ var $elm$svg$Svg$Attributes$xlinkHref = function (value) {
 };
 var $elm$svg$Svg$Attributes$y = _VirtualDom_attribute('y');
 var $author$project$Platformer$viewCharacter = function (model) {
+	var characterImage = function () {
+		var _v0 = model.characterDirection;
+		if (_v0.$ === 'Left') {
+			return '../images/adventurer-idle-03-left.png';
+		} else {
+			return '../images/adventurer-idle-03.png';
+		}
+	}();
 	return A2(
 		$elm$svg$Svg$image,
 		_List_fromArray(
 			[
-				$elm$svg$Svg$Attributes$xlinkHref('../images/adventurer-idle-03.png'),
+				$elm$svg$Svg$Attributes$xlinkHref(characterImage),
 				$elm$svg$Svg$Attributes$x(
 				$elm$core$String$fromInt(model.characterPositionX)),
 				$elm$svg$Svg$Attributes$y(

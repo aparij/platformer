@@ -19,7 +19,8 @@ main =
 -- MODEL
  
 type alias Model =
-    { characterPositionX : Int
+    { characterDirection : Direction
+    , characterPositionX : Int
     , characterPositionY : Int
     , itemPositionX : Int
     , itemPositionY : Int
@@ -27,7 +28,8 @@ type alias Model =
  
 initialModel : Model
 initialModel =
-    { characterPositionX = 50
+    { characterDirection = Right
+    , characterPositionX = 50
     , characterPositionY = 300
     , itemPositionX = 500
     , itemPositionY = 300
@@ -43,6 +45,10 @@ init _ =
 type Msg
     = KeyDown String
     | NoOp
+
+type Direction
+    = Left
+    | Right
  
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -50,9 +56,19 @@ update msg model =
         KeyDown key ->
             case key of 
                 "ArrowRight" -> 
-                    ( { model | characterPositionX = model.characterPositionX + 15 }, Cmd.none )
+                    ( { model 
+                        | characterDirection = Right
+                        , characterPositionX = model.characterPositionX + 15
+                        }
+                    , Cmd.none 
+                    )
                 "ArrowLeft" -> 
-                    ( { model | characterPositionX = model.characterPositionX - 15 }, Cmd.none )
+                    ( { model 
+                        | characterDirection = Left
+                        , characterPositionX = model.characterPositionX - 15
+                        }
+                    , Cmd.none
+                    )
                 _ ->
                     ( model, Cmd.none )    
         NoOp ->
@@ -122,8 +138,17 @@ viewGameGround =
 
 viewCharacter : Model -> Svg Msg
 viewCharacter model =
+    let
+        characterImage =
+            case model.characterDirection of
+                Left ->
+                    "../images/adventurer-idle-03-left.png"
+  
+                Right ->
+                    "../images/adventurer-idle-03.png"
+    in
     image
-        [ xlinkHref "../images/adventurer-idle-03.png"
+        [ xlinkHref characterImage
         , x (String.fromInt model.characterPositionX)
         , y (String.fromInt model.characterPositionY)
         , width "50"
